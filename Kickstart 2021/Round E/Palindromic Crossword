@@ -1,0 +1,143 @@
+// The ones who fear failure are those who have never tasted it..
+
+#include<bits/stdc++.h>
+using namespace std;
+
+#define F first
+#define S second
+#define pb push_back
+#define int long long
+#define vec_i vector<int>
+#define sz(x) (int)(x.size())
+#define all(x) (x).begin(),(x).end()
+#define forr(x,a,m) for(int x=a;x<m;x+=1)
+const int mod = 1000000007;
+
+vector<pair<int, int>> vv[1001][1001];
+map<pair<int, int>, int> visited;
+vector<pair<int, int>> temp;
+
+void transpose(vector<vector<char>> &a){
+    int n = sz(a), m = sz(a[0]);
+    vector<vector<char>> b(m, vector<char>(n,'#'));
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < m; j++)
+            b[j][i] = a[i][j];
+    a = b;
+}
+
+void dfs(int i, int j) {
+    visited[{i, j}]++;
+    temp.pb({i, j});
+    for(auto vbn : vv[i][j]) {
+        if(visited[vbn] == 0) {
+            dfs(vbn.F, vbn.S);
+        }
+    }
+}
+
+void solve() {
+    int n, m; cin >> n >> m;
+    vector<vector<char>> a(n, vector<char>(m,'#'));
+    forr(i,0,n) {
+        forr(j,0,m) {
+            visited[{i,j}] = 0;
+            vv[i][j].clear();
+            cin >> a[i][j];
+        }
+    }
+    int ans = 0;
+    {
+        map<pair<int, int>, int> vis;
+        forr(i,0,n) {
+            forr(j,0,m) {
+                if(a[i][j] != '#' && vis[{i, j}] == 0) {
+                    int l = j - 1, k = j;
+                    vector<pair<int, int>> vp; 
+                    while(l >= 0) {
+                        if(a[i][l] == '#') break;
+                        vis[{i, l}]++;
+                        vp.pb({i, l--});
+                    }
+                    reverse(all(vp));
+                    while(k < m) {
+                        if(a[i][k] == '#') break;
+                        vis[{i, k}]++;
+                        vp.pb({i, k++});
+                    }
+                    forr(h,0,sz(vp)/2) {
+                        vv[vp[h].F][vp[h].S].pb({vp[sz(vp) - h - 1].F, vp[sz(vp) - h - 1].S});
+                        vv[vp[sz(vp) - h - 1].F][vp[sz(vp) - h - 1].S].pb({vp[h].F, vp[h].S});
+                    }
+                }
+            }
+        }
+        vis.clear();
+        transpose(a);
+        forr(i,0,m) {
+            forr(j,0,n) {
+                if(a[i][j] != '#' && vis[{i, j}] == 0) {
+                    int l = j - 1, k = j;
+                    vector<pair<int, int>> vp; 
+                    while(l >= 0) {
+                        if(a[i][l] == '#') break;
+                        vis[{i, l}]++;
+                        vp.pb({i, l--});
+                    }
+                    reverse(all(vp));
+                    while(k < n) {
+                        if(a[i][k] == '#') break;
+                        vis[{i, k}]++;
+                        vp.pb({i, k++});
+                    }
+                    forr(h,0,sz(vp)/2) {
+                        vv[vp[h].S][vp[h].F].pb({vp[sz(vp) - h - 1].S, vp[sz(vp) - h - 1].F});
+                        vv[vp[sz(vp) - h - 1].S][vp[sz(vp) - h - 1].F].pb({vp[h].S, vp[h].F});
+                    }
+                }
+            }
+        }
+        transpose(a);
+    }
+
+    forr(i,0,n) {
+        forr(j,0,m) {
+            if(visited[{i, j}] == 0) {
+                temp.clear();
+                dfs(i, j);
+                char c = '#';
+                for(auto x : temp) {
+                    if(a[x.F][x.S] != '.' && a[x.F][x.S] != '#') {
+                        c = a[x.F][x.S];
+                    }
+                }
+                if(c != '#') {
+                    for(auto x : temp) {
+                        if(a[x.F][x.S] != c) {
+                            ans++;
+                            a[x.F][x.S] = c;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    cout << ans << '\n';
+    forr(i,0,n) {
+        forr(j,0,m) {
+            cout << a[i][j];
+        }
+        cout << '\n';
+    }
+}
+
+signed main() {
+    ios_base::sync_with_stdio(false); cin.tie(NULL);
+    int tin = 1; cin >> tin;
+    forr(i,0,tin) {
+        cout << "Case #" << i + 1 <<": ";
+        solve();
+    }
+    return 0;
+}
