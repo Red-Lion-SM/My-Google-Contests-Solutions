@@ -1,0 +1,75 @@
+// If it's not okay, it's not the end...
+
+#include<bits/stdc++.h>
+using namespace std;
+
+#define F first
+#define S second
+#define pb push_back
+#define int long long
+#define ldd long double
+#define vec_i vector<int>
+#define sz(x) (int)(x.size())
+#define all(x) (x).begin(),(x).end()
+#define forr(x,a,m) for(int x=a;x<m;x+=1)
+const int mod = 1000000007;
+
+void solve() {
+	int n, a, b; cin >> n >> a >> b;
+	int AA[n + 1]; forr(i, 1, n + 1) cin >> AA[i];
+	forr(stn, 1, 1000) {
+		map<int, int>mpp;
+		mpp[stn]++;
+		int A[n + 1]; forr(i, 1, n + 1) {A[i] = AA[i]; }
+		int fl = 0;
+		forr(iii, 0, 1000) {
+			fl = 0;
+			set<int>st;
+			for (auto vbn : mpp) {st.insert(vbn.F);}
+			for (auto vbn : st) {
+				if (vbn > n) {
+					if (vbn - a > 0) mpp[vbn - a] += mpp[vbn];
+					if (vbn - b > 0) mpp[vbn - b] += mpp[vbn];
+					mpp[vbn] = 0;
+					if (mpp[vbn] == 0) mpp.erase(vbn);
+					fl++;
+					continue;
+				}
+				if (A[vbn] < mpp[vbn]) {
+					fl++;
+					if (vbn - a > 0) {
+						mpp[vbn - a] += (mpp[vbn] - A[vbn]);
+					}
+					if (vbn - b > 0) {
+						mpp[vbn - b] += (mpp[vbn] - A[vbn]);
+					}
+					mpp[vbn] -= (mpp[vbn] - A[vbn]);
+					if (mpp[vbn] == 0) mpp.erase(vbn);
+				}
+			}
+			if (!fl) break;
+		}
+		int gl = 0;
+		forr(i, 1, n + 1) {
+			if (A[i] > mpp[i]) {
+				gl++; break;
+			}
+		}
+		if (!gl) {
+			cout << stn << '\n';
+			return;
+		}
+	}
+	cout << "IMPOSSIBLE\n";
+}
+
+signed main() {
+	ios_base::sync_with_stdio(false); cin.tie(NULL);
+
+	int tin = 1; cin >> tin;
+	forr(test_num, 1, tin + 1) {
+		cout << "Case #" << test_num << ": ";
+		solve();
+	}
+	return 0;
+}
