@@ -1,0 +1,69 @@
+// If it's not okay, it's not the end...
+
+#include<bits/stdc++.h>
+using namespace std;
+
+#define F first
+#define S second
+#define pb push_back
+#define int long long
+#define ldd long double
+#define vec_i vector<int>
+#define sz(x) (int)(x.size())
+#define all(x) (x).begin(),(x).end()
+#define forr(x,a,m) for(int x=a;x<m;x+=1)
+const int mod = 1000000007;
+
+int toll[1001], load;
+map<pair<int, int>, pair<int, int>>mpp;
+vec_i visited(1001, 0);
+vector<vector<int>>vv(1001);
+
+void dfs(int z) {
+    visited[z]++;
+    for (auto vbn : vv[z]) {
+        if (visited[vbn] == 0) {
+            if (mpp[ {z, vbn}].F <= load) {
+                // cout << vbn << '\n';
+                toll[vbn] = __gcd(toll[z], mpp[ {z, vbn}].S);
+            }
+            else {
+                toll[vbn] = toll[z];
+            }
+            dfs(vbn);
+        }
+    }
+}
+
+void solve() {
+    int n, q, x, y, l, c; cin >> n >> q;
+    forr(i, 0, n - 1) {
+        cin >> x >> y >> l >> c;
+        mpp[ {x, y}] = {l, c};
+        mpp[ {y, x}] = {l, c};
+        vv[x].pb(y); vv[y].pb(x);
+    }
+    while (q--) {
+        cin >> x >> load;
+        dfs(x);
+        cout << toll[1] << ' ';
+        forr(i, 0, n + 1) {
+            toll[i] = 0;
+            visited[i] = 0;
+        }
+    }
+    cout << '\n';
+    mpp.clear();
+    for (auto &vbn : vv) vbn.clear();
+}
+
+signed main() {
+    ios_base::sync_with_stdio(false); cin.tie(NULL);
+
+    int tin = 1; cin >> tin;
+    forr(test_num, 1, tin + 1) {
+        cout << "Case #" << test_num << ": ";
+        solve();
+    }
+    return 0;
+}
