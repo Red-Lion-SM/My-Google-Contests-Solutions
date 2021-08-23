@@ -1,0 +1,39 @@
+// If it's not okay, it's not the end...
+
+#include<bits/stdc++.h>
+using namespace std;
+
+#define F first
+#define S second
+#define pb push_back
+#define int long long
+#define ldd long double
+#define vec_i vector<int>
+#define sz(x) (int)(x.size())
+#define all(x) (x).begin(),(x).end()
+#define forr(x,a,m) for(int x=a;x<m;x+=1)
+const int mod = 1000000007;
+
+void solve() {
+    int n, k; cin >> n >> k;
+    int sc = 0;
+    string s; cin >> s;
+    s = '#' + s;
+    forr(i, 1, n / 2 + 1) {
+        if (s[i] != s[n - i + 1]) {
+            sc++;
+        }
+    }
+    cout << abs(k - sc) << '\n';
+}
+
+signed main() {
+    ios_base::sync_with_stdio(false); cin.tie(NULL);
+
+    int tin = 1; cin >> tin;
+    forr(test_num, 1, tin + 1) {
+        cout << "Case #" << test_num << ": ";
+        solve();
+    }
+    return 0;
+}
