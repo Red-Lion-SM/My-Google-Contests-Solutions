@@ -1,0 +1,39 @@
+for tin in range(int(input())):
+    n=int(input())
+    a=[]
+    b=[]; c=[];
+    for _ in range(n):
+        s=str(input())
+        x=s[:s.index("*")]
+        y=s[s.index("*")+1:]
+        b.append(x); c.append(y[::-1])
+    k=0; t=-1; x=""; u=-1; y=""
+    for _ in range(len(b)):
+        for i in range(_+1,len(b)):
+            s=min(len(b[_]),len(b[i]))
+            if b[_][:s]!=b[i][:s]:
+                k=1
+                break
+    if k==0:
+        for _ in range(len(b)):
+            if len(b[_])>t:
+                x=b[_]
+                t=len(b[_])
+    if k==0:
+        j=0
+        for _ in range(len(c)):
+            for i in range(_ + 1, len(c)):
+                s = min(len(c[_]),len(c[i]))
+                if c[_][:s] != c[i][:s]:
+                    j=1
+                    break
+        if j==0:
+            for _ in range(len(c)):
+                if len(c[_]) > u:
+                    y = c[_]
+                    u = len(c[_])
+    print("Case #", end=""); print(tin + 1, end=": ");
+    if k==0 and j==0:
+        print(x,end=""); print(y[::-1])
+    else:
+        print("*")
