@@ -1,0 +1,21 @@
+for tin in range(int(input())):
+    n,m=map(int,input().split())
+    a=list(map(int,input().split()))
+    a.sort()
+    k=0
+    x=0
+    for _ in range(len(a)):
+        x+=a[_]
+        if x>m:
+            x-=a[_]
+            print("Case #",end="")
+            print(tin+1,end="")
+            print(end=": ")
+            print(_)
+            k=1
+            break
+    if k==0:
+        print("Case #",end="")
+        print(tin+1,end="")
+        print(end=": ")
+        print(n)
