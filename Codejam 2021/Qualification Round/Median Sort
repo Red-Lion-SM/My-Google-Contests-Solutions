@@ -1,0 +1,129 @@
+// If it's not okay, it's not the end...
+
+#include<bits/stdc++.h>
+using namespace std;
+
+#define F first
+#define S second
+#define pb push_back
+#define int long long
+#define ldd long double
+#define vec_i vector<int>
+#define sz(x) (int)(x.size())
+#define all(x) (x).begin(),(x).end()
+#define forr(x,a,m) for(int x=a;x<m;x+=1)
+const int mod = 1000000007;
+
+int a[10] = {2, 1, 5, 3, 10, 7, 9, 8, 6, 4};
+
+int qu(int i, int j, int k) {
+    cout << i << ' ' << j << ' ' << k << endl;
+    vector<pair<int, int>>vp;
+    vp.pb({a[i - 1], i});
+    vp.pb({a[j - 1], j});
+    vp.pb({a[k - 1], k});
+    sort(all(vp));
+    cout << "~~ " << vp[1].S << '\n';
+    return vp[1].S;
+}
+
+int q(int i, int j, int k) {
+    int x;
+    cout << i << ' ' << j << ' ' << k << endl;
+    cout.flush();
+    cin >> x;
+    return x;
+}
+
+void solve() {
+    int t, n, qq, x = 0; cin >> t >> n >> qq;
+    while (t--) {
+        int cnt = 0;
+        map<pair<int, pair<int, int>>, int>mpr;
+        map<int, int>mpp;
+        forr(i, 0, n) {
+            forr(j, 0, n) {
+                forr(k, 0, n) {
+                    if (i != j && j != k && i != k && mpr[ {min(i + 1, min(j + 1, k + 1)), {i + 1 + j + 1 + k + 1 - min(i + 1, min(j + 1, k + 1)) - max(i + 1, max(j + 1, k + 1)), max(i + 1, max(j + 1, k + 1))}}] == 0) {
+                        x = q(i + 1, j + 1, k + 1);
+                        mpr[ {min(i + 1, min(j + 1, k + 1)), {i + 1 + j + 1 + k + 1 - min(i + 1, min(j + 1, k + 1)) - max(i + 1, max(j + 1, k + 1)), max(i + 1, max(j + 1, k + 1))}}]++;
+                        mpp[x]++;
+                        if (cnt > qq) return;
+                    }
+                }
+            }
+        }
+        int ans[n + 1];
+        int fl = 0;
+        forr(i, 1, n + 1) {
+            if (mpp[i] == 0) {
+                if (!fl) {
+                    ans[1] = i;
+                    fl++;
+                }
+                else {
+                    ans[n] = i;
+                }
+            }
+        }
+        vec_i v;
+        forr(i, 1, n + 1) if (mpp[i] == 8) v.pb(i);
+        x = q(ans[1], v[0], v[1]);
+        if (x == v[0]) {
+            ans[2] = v[0], ans[9] = v[1];
+        }
+        else {
+            ans[9] = v[0], ans[2] = v[1];
+        }
+
+        v.clear();
+        forr(i, 1, n + 1) if (mpp[i] == 14) v.pb(i);
+        x = q(ans[1], v[0], v[1]);
+        if (x == v[0]) {
+            ans[3] = v[0], ans[8] = v[1];
+        }
+        else {
+            ans[8] = v[0], ans[3] = v[1];
+        }
+
+        v.clear();
+        forr(i, 1, n + 1) if (mpp[i] == 18) v.pb(i);
+        x = q(ans[1], v[0], v[1]);
+        if (x == v[0]) {
+            ans[4] = v[0], ans[7] = v[1];
+        }
+        else {
+            ans[7] = v[0], ans[4] = v[1];
+        }
+
+        v.clear();
+        forr(i, 1, n + 1) if (mpp[i] == 20) v.pb(i);
+        x = q(ans[1], v[0], v[1]);
+        if (x == v[0]) {
+            ans[5] = v[0], ans[6] = v[1];
+        }
+        else {
+            ans[6] = v[0], ans[5] = v[1];
+        }
+
+        forr(i, 0, n) {
+            cout << ans[i + 1] << ' ';
+        }
+        cout << endl;
+        cout.flush();
+        cin>>x;
+        if(x==-1){
+            exit(0);
+        }
+    }
+}
+
+signed main() {
+    ios_base::sync_with_stdio(false); cin.tie(NULL);
+// #ifndef ONLINE_JUDGE
+//     freopen("input.txt", "r", stdin);
+//     freopen("output.txt", "w", stdout);
+// #endif
+    solve();
+    return 0;
+}
