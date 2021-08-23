@@ -1,0 +1,52 @@
+// The ones who fear failure are those who have never tasted it..
+
+#include<bits/stdc++.h>
+using namespace std;
+
+#define F first
+#define S second
+#define pb push_back
+#define int long long
+#define vec_i vector<int>
+#define sz(x) (int)(x.size())
+#define all(x) (x).begin(),(x).end()
+#define forr(x,a,m) for(int x=a;x<m;x+=1)
+const int mod = 1000000007;
+
+long double ans[11];
+
+void solve() {
+    int n; cin >> n;
+    cout << ans[n] << '\n';
+}
+
+signed main() {
+    ios_base::sync_with_stdio(false); cin.tie(NULL);
+    forr(N,1,11) {
+        int sum = 0, c = 0;
+        vec_i t;
+        forr(j,1,N + 1) {
+            t.pb(j);
+        }
+        sort(all(t));
+        do {
+            int cnt = 1, mx = t[0];
+            forr(i,1,sz(t)) {
+                if(t[i] > mx) {
+                    mx = t[i];
+                    cnt++;
+                }
+            }
+            sum += cnt;
+            c++;
+        } while (next_permutation(all(t)));
+        ans[N] = (long double)sum / (long double)c;
+    }
+    int tin = 1; cin >> tin;
+    forr(i,0,tin) {
+        cout << "Case #" << i + 1 <<": ";
+        cout << fixed << setprecision(10);
+        solve();
+    }
+    return 0;
+}
