@@ -1,0 +1,57 @@
+// The ones who fear failure are those who have never tasted it..
+
+#include<bits/stdc++.h>
+using namespace std;
+
+#define F first
+#define S second
+#define pb push_back
+#define int long long
+#define ldd long double
+#define vec_i vector<int>
+#define sz(x) (int)(x.size())
+#define all(x) (x).begin(),(x).end()
+#define forr(x,a,m) for(int x=a;x<m;x+=1)
+const int mod = 1000000007;
+
+void solve() {
+	int n = 3;
+	int a[n][n]; 
+	forr(i,0,n) cin >> a[0][i];
+	cin >> a[1][0] >> a[1][2];
+	forr(i,0,n) cin >> a[2][i];
+	map<int,int> mpp;
+	if((a[0][0] + a[2][2]) % 2 == 0)
+		mpp[(a[0][0] + a[2][2]) / 2]++;
+	if((a[0][1] + a[2][1]) % 2 == 0)
+		mpp[(a[0][1] + a[2][1]) / 2]++;
+	if((a[0][2] + a[2][0]) % 2 == 0)
+		mpp[(a[0][2] + a[2][0]) / 2]++;
+	if((a[1][0] + a[1][2]) % 2 == 0)
+		mpp[(a[1][0] + a[1][2]) / 2]++;
+	int mx = 0, ind = 0;
+	for(auto vbn: mpp) {
+		if(mx < vbn.S) mx = vbn.S, ind = vbn.F;
+	}
+	a[1][1] = ind;
+	int ans = mx;
+	if((a[0][0] + a[0][2]) % 2 == 0)
+		if((a[0][0] + a[0][2]) / 2 == a[0][1]) ans++;
+	if((a[2][0] + a[2][2]) % 2 == 0)
+		if((a[2][0] + a[2][2]) / 2 == a[2][1]) ans++;
+	if((a[0][0] + a[2][0]) % 2 == 0)
+		if((a[0][0] + a[2][0]) / 2 == a[1][0]) ans++;
+	if((a[0][2] + a[2][2]) % 2 == 0)
+		if((a[0][2] + a[2][2]) / 2 == a[1][2]) ans++;
+	cout << ans << '\n';
+}
+
+signed main() {
+	ios_base::sync_with_stdio(false); cin.tie(NULL);
+	int tin = 1; cin >> tin;
+	forr(test_num, 1, tin + 1) {
+		cout << "Case #" << test_num << ": ";
+		solve();
+	}
+	return 0;
+}
