@@ -1,0 +1,61 @@
+// If it's not okay, it's not the end...
+
+#include<bits/stdc++.h>
+using namespace std;
+
+#define F first
+#define S second
+#define pb push_back
+#define int long long
+#define ldd long double
+#define vec_i vector<int>
+#define sz(x) (int)(x.size())
+#define all(x) (x).begin(),(x).end()
+#define forr(x,a,m) for(int x=a;x<m;x+=1)
+const int mod = 1000000007;
+
+void solve() {
+    int n, c; cin >> n >> c;
+    if (c < n - 1 || c > (n * (n + 1)) / 2 - 1) {
+        cout << "IMPOSSIBLE\n";
+        return;
+    }
+    vec_i v;
+    forr(i, 0, n) {
+        v.pb(i + 1);
+    }
+    c -= (n - 1);
+    int fl = 0, val = n - 1, gl = 0;
+    forr(kk, 0, c) {
+        int ind_mn = INT64_MAX, ind_mx = INT64_MIN;
+        forr(i, 0, n) {
+            if (v[i] <= n && v[i] >= val)
+                ind_mn = min(i, ind_mn), ind_mx = max(i, ind_mx);
+        }
+        sort(v.begin() + ind_mn, v.begin() + ind_mx + 1);
+        if (!gl) {
+            reverse(v.begin() + ind_mn, v.begin() + ind_mx + 1);
+        }
+        val--;
+        if (val <= fl) {
+            gl ^= 1;
+            val = n - 1;
+            fl++;
+        }
+    }
+    forr(i, 0, n) {
+        cout << v[i] << ' ';
+    }
+    cout << '\n';
+}
+
+signed main() {
+    ios_base::sync_with_stdio(false); cin.tie(NULL);
+
+    int tin = 1; cin >> tin;
+    forr(test_num, 1, tin + 1) {
+        cout << "Case #" << test_num << ": ";
+        solve();
+    }
+    return 0;
+}
