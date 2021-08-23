@@ -1,0 +1,79 @@
+// If it's not okay, it's not the end...
+
+#include<bits/stdc++.h>
+using namespace std;
+
+#define F first
+#define S second
+#define pb push_back
+#define int long long
+#define ldd long double
+#define vec_i vector<int>
+#define sz(x) (int)(x.size())
+#define all(x) (x).begin(),(x).end()
+#define forr(x,a,m) for(int x=a;x<m;x+=1)
+const int mod = 1000000007;
+
+void solve() {
+	int a, b, c; cin >> a >> b >> c;
+	// cout << a << ' ' << b << ' ' << c << '\n';
+	int A = a, B = b, C = c;
+	a = ((120 * A)	 / (120000000000)), b = (10 * B) / (120000000000), c = (c) / (6 * 120000000000);
+	if (a % 3600 == b && b % 60 == c) {
+		A = a / 3600;
+		B = b / 60;
+		C = c;
+		cout << A << ' ' << B << ' ' << C << ' ' << 0 << '\n';
+		return;
+	}
+	a = ((120 * A) / (120000000000)), b = (10 * C) / (120000000000), c = (B) / (6 * 120000000000);
+	if (a % 3600 == b && b % 60 == c) {
+		A = a / 3600;
+		B = b / 60;
+		C = c;
+		cout << A << ' ' << B << ' ' << C << ' ' << 0 << '\n';
+		return;
+	}
+	a = ((120 * B) / (120000000000)), b = (10 * A) / (120000000000), c = (C) / (6 * 120000000000);
+	if (a % 3600 == b && b % 60 == c) {
+		A = a / 3600;
+		B = b / 60;
+		C = c;
+		cout << A << ' ' << B << ' ' << C << ' ' << 0 << '\n';
+		return;
+	}
+	a = ((120 * B) / (120000000000)), b = (10 * C) / (120000000000), c = (A) / (6 * 120000000000);
+	if (a % 3600 == b && b % 60 == c) {
+		A = a / 3600;
+		B = b / 60;
+		C = c;
+		cout << A << ' ' << B << ' ' << C << ' ' << 0 << '\n';
+		return;
+	}
+	a = ((120 * C) / (120000000000)), b = (10 * A) / (120000000000), c = (B) / (6 * 120000000000);
+	if (a % 3600 == b && b % 60 == c) {
+		A = a / 3600;
+		B = b / 60;
+		C = c;
+		cout << A << ' ' << B << ' ' << C << ' ' << 0 << '\n';
+		return;
+	}
+	a = ((120 * C) / (120000000000)), b = (10 * B) / (120000000000), c = (A) / (6 * 120000000000);
+	if (a % 3600 == b && b % 60 == c) {
+		A = a / 3600;
+		B = b / 60;
+		C = c;
+		cout << A << ' ' << B << ' ' << C << ' ' << 0 << '\n';
+		return;
+	}
+}
+
+signed main() {
+	ios_base::sync_with_stdio(false); cin.tie(NULL);
+	int tin = 1; cin >> tin;
+	forr(test_num, 1, tin + 1) {
+		cout << "Case #" << test_num << ": ";
+		solve();
+	}
+	return 0;
+}
