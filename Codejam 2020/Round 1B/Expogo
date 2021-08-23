@@ -1,0 +1,51 @@
+//Fall 7, Stand 8...
+// Present Situation never defines final destination...
+#include <bits/stdc++.h>
+using namespace std;
+#define all(a) a.begin(),a.end()
+#define pb push_back
+#define res(a,x,y) for(int a=(int)x;a>=(int)y;--a)
+#define forr(a,x,y) for(int a=(int)x;a<=(int)y;++a)
+int test,X,Y;
+int main(){test=1;
+    cin>>test;
+    forr(t,1,test){
+        cin>>X>>Y;
+        if((X+Y)%2==0)
+            cout<<"Case #"<<t<<": IMPOSSIBLE"<<endl;
+        else{
+            cout<<"Case #"<<t<<": ";
+            bool mina=0,minb=0;
+            if(X<0) mina=1;
+            if(Y<0) minb=1;
+            vector<int> bit;
+            vector<char> ans;
+            int tmp=log2(abs(X)+abs(Y))+1;
+            int tmp2=(1<<(tmp))-1;
+            int tmp3=(tmp2-abs(X)-abs(Y))/2;
+            for(int i=0;i<tmp;++i)
+                if(tmp3&(1<<i)) bit.pb(-(1<<i));
+                else bit.pb(1<<i);
+            reverse(all(bit));
+            X=abs(X); Y=abs(Y);
+            for(auto i:bit){
+                if(abs(X)>abs(Y)){
+                    X-=i;
+                    if((i<0)&&(mina)) ans.pb('E');
+                    else if((i<0)||(mina)) ans.pb('W');
+                    else ans.pb('E');
+                }
+                else {
+                    Y-=i;
+                    if((i<0)&&(minb)) ans.pb('N');
+                    else if((i<0)||(minb)) ans.pb('S');
+                    else ans.pb('N');
+                }
+            }
+            reverse(all(ans));
+            for(auto i:ans) cout<<i;
+            cout<<endl;
+        }
+    }
+    return 0;
+}
