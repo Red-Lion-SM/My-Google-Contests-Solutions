@@ -1,0 +1,125 @@
+// If it's not okay, it's not the end...
+
+#include<bits/stdc++.h>
+using namespace std;
+
+#define F first
+#define S second
+#define pb push_back
+#define int long long
+#define ldd long double
+#define vec_i vector<int>
+#define sz(x) (int)(x.size())
+#define all(x) (x).begin(),(x).end()
+#define forr(x,a,m) for(int x=a;x<m;x+=1)
+const int mod = 1000000007;
+
+void solve() {
+    int n, m; cin >> n >> m;
+    int a[n][m];
+    forr(i, 0, n) {
+        forr(j, 0, m) {
+            cin >> a[i][j];
+        }
+    }
+    int pre_row[n][m], pre_col[n][m], suff_row[n][m], suff_col[n][m];
+    memset(pre_row, 0, sizeof(pre_row));
+    memset(pre_col, 0, sizeof(pre_col));
+    memset(suff_row, 0, sizeof(suff_row));
+    memset(suff_col, 0, sizeof(suff_col));
+    forr(i, 0, n) {
+        int x = 0;
+        forr(j, 0, m) {
+            if (a[i][j] == 1) {
+                x++;
+                pre_row[i][j] = x;
+            }
+            else {
+                x = 0;
+            }
+        }
+        x = 0;
+        for (int j = m - 1; j >= 0; j--) {
+            if (a[i][j] == 1) {
+                x++;
+                suff_row[i][j] = x;
+            }
+            else {
+                x = 0;
+            }
+        }
+    }
+    forr(i, 0, m) {
+        int x = 0;
+        forr(j, 0, n) {
+            if (a[j][i] == 1) {
+                x++;
+                pre_col[j][i] = x;
+            }
+            else {
+                x = 0;
+            }
+        }
+        x = 0;
+        for (int j = n - 1; j >= 0; j--) {
+            if (a[j][i] == 1) {
+                x++;
+                suff_col[j][i] = x;
+            }
+            else {
+                x = 0;
+            }
+        }
+    }
+    int ans = 0;
+    forr(i, 0, n) {
+        forr(j, 0, m) {
+            if (a[i][j] == 1) {
+                if ((min(pre_row[i][j], pre_col[i][j]) >= 2)) {
+                    ans += min(pre_row[i][j], pre_col[i][j] / 2);
+                    ans--;
+                }
+                if (min(pre_row[i][j], pre_col[i][j]) >= 2) {
+                    ans += min(pre_row[i][j] / 2, pre_col[i][j]);
+                    ans--;
+                }
+                if ((min(pre_row[i][j], suff_col[i][j]) >= 2)) {
+                    ans += min(pre_row[i][j], suff_col[i][j] / 2);
+                    ans--;
+                }
+                if (min(pre_row[i][j], suff_col[i][j]) >= 2) {
+                    ans += min(pre_row[i][j] / 2, suff_col[i][j]);
+                    ans--;
+                }
+                if ((min(suff_row[i][j], pre_col[i][j]) >= 2)) {
+                    ans += min(suff_row[i][j], pre_col[i][j] / 2);
+                    ans--;
+                }
+                if (min(suff_row[i][j], pre_col[i][j]) >= 2) {
+                    ans += min(suff_row[i][j] / 2, pre_col[i][j]);
+                    ans--;
+                }
+                if ((min(suff_row[i][j], suff_col[i][j]) >= 2)) {
+                    ans += min(suff_row[i][j], suff_col[i][j] / 2);
+                    ans--;
+                }
+                if (min(suff_row[i][j], suff_col[i][j]) >= 2) {
+                    ans += min(suff_row[i][j] / 2, suff_col[i][j]);
+                    ans--;
+                }
+            }
+        }
+    }
+    cout << ans << '\n';
+}
+
+signed main() {
+    ios_base::sync_with_stdio(false); cin.tie(NULL);
+
+    int tin = 1; cin >> tin;
+    forr(test_num, 1, tin + 1) {
+        cout << "Case #" << test_num << ": ";
+        solve();
+    }
+    return 0;
+}
