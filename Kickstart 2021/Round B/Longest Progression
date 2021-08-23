@@ -1,0 +1,72 @@
+// If it's not okay, it's not the end...
+
+#include<bits/stdc++.h>
+using namespace std;
+
+#define F first
+#define S second
+#define pb push_back
+#define int long long
+#define ldd long double
+#define vec_i vector<int>
+#define sz(x) (int)(x.size())
+#define all(x) (x).begin(),(x).end()
+#define forr(x,a,m) for(int x=a;x<m;x+=1)
+const int mod = 1000000007;
+
+void solve() {
+    int n, ans = 2; cin >> n;
+    int a[n]; forr(i, 0, n) cin >> a[i];
+    if (n == 2) {
+        cout << 2 << '\n';
+        return;
+    }
+    if (n == 3) {
+        cout << 3 << '\n';
+        return;
+    }
+    forr(i, 0, n) {
+        int x = a[i];
+        if (i > 1) {
+            a[i] = a[i - 1] + a[i - 1] - a[i - 2];
+            int mx = 2, cnt = 2;
+            forr(j, 2, n) {
+                if (a[j] - a[j - 1] == a[j - 1] - a[j - 2]) {
+                    cnt++;
+                }
+                else {
+                    cnt = 2;
+                }
+                mx = max(cnt, mx);
+            }
+            ans = max(ans, mx);
+        }
+        if (i < n - 2) {
+            a[i] = a[i + 1] - (a[i + 2] - a[i + 1]);
+            int mx = 2, cnt = 2;
+            forr(j, 2, n) {
+                if (a[j] - a[j - 1] == a[j - 1] - a[j - 2]) {
+                    cnt++;
+                }
+                else {
+                    cnt = 2;
+                }
+                mx = max(cnt, mx);
+            }
+            ans = max(ans, mx);
+        }
+        a[i] = x;
+    }
+    cout << ans << '\n';
+}
+
+signed main() {
+    ios_base::sync_with_stdio(false); cin.tie(NULL);
+
+    int tin = 1; cin >> tin;
+    forr(test_num, 1, tin + 1) {
+        cout << "Case #" << test_num << ": ";
+        solve();
+    }
+    return 0;
+}
