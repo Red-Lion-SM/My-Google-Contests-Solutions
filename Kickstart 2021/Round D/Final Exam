@@ -1,0 +1,66 @@
+// The ones who fear failure are those who have never tasted it..
+
+#include<bits/stdc++.h>
+using namespace std;
+
+#define F first
+#define S second
+#define pb push_back
+#define int long long
+#define ldd long double
+#define vec_i vector<int>
+#define sz(x) (int)(x.size())
+#define all(x) (x).begin(),(x).end()
+#define forr(x,a,m) for(int x=a;x<m;x+=1)
+const int mod = 1000000007;
+
+void solve() {
+	int n, m, l, r; cin >> n >> m;
+	set<int> st;
+	forr(i,0,n) {
+		cin >> l >> r;
+		forr(k,l,r+1) {
+			st.insert(k);
+		}
+	}
+	int a[m];
+	forr(i,0,m) cin >> a[i];
+	forr(i,0,m){
+		auto it = st.lower_bound(a[i]);
+		if(it == st.end()) it--;
+		if(*it == a[i]) {
+			cout << a[i] << ' ';
+			st.erase(it);
+		}
+		else {
+			int x = *it - a[i];
+			if(it == st.begin()) {
+				cout << *it << ' ';
+				st.erase(it);
+				continue;
+			}
+			it--;
+			int y = a[i] - *it;
+			if(y <= x) {
+				cout << *it << ' ';
+				st.erase(it);
+			}
+			else{
+				it++;
+				cout << *it << ' ';
+				st.erase(it);
+			}
+		}
+	}
+	cout << '\n';
+}
+
+signed main() {
+	ios_base::sync_with_stdio(false); cin.tie(NULL);
+	int tin = 1; cin >> tin;
+	forr(test_num, 1, tin + 1) {
+		cout << "Case #" << test_num << ": ";
+		solve();
+	}
+	return 0;
+}
