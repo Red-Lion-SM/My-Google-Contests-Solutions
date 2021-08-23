@@ -1,0 +1,13 @@
+for tin in range(int(input())):
+    s=list(str(input()))
+    s=[int(s[_]) for _ in range(len(s))]
+    print("Case #",end=""); print(tin+1,end=": ")
+    print("("*s[0],end="")
+    for _ in range(1,len(s)):
+        print(s[_-1],end="")
+        if s[_]>s[_-1]:
+            print("("*(s[_]-s[_-1]),end="")
+        else:
+            print(")"*(s[_-1]-s[_]),end="")
+    print(s[-1],end="")
+    print(")"*s[-1])
