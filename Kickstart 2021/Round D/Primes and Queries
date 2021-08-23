@@ -1,0 +1,95 @@
+// The ones who fear failure are those who have never tasted it..
+
+#include<bits/stdc++.h>
+using namespace std;
+
+#define F first
+#define S second
+#define pb push_back
+#define int long long
+#define ldd long double
+#define vec_i vector<int>
+#define sz(x) (int)(x.size())
+#define all(x) (x).begin(),(x).end()
+#define forr(x,a,m) for(int x=a;x<m;x+=1)
+const int mod = 1000000007;
+
+const int N = 500005;
+int n, p;
+int tree[4][2 * N];
+
+int play(int x, int y, int o) {
+	o++;
+	int l = 1,r = 1;
+	while(o--) l*=x,r*=y;
+	x = l; y = r;
+	x-=y;
+	int f = 0;
+	while(x >0 && x%p == 0) {
+		x/=p,f++;
+	}
+	return f;
+}
+
+void build( int arr[]){
+    forr(o,0,4){
+		for (int i=0; i<n; i++){
+			tree[o][n+i] = play(arr[i], arr[i]%p, o);
+		}
+		for (int i = n - 1; i > 0; --i)  {  
+			tree[o][i] = tree[o][i<<1] + tree[o][i<<1 | 1];  
+		} 
+    } 
+}
+
+void updateTreeNode(int k, int value){
+    k = k+n;     
+	forr(o,0,4){
+		tree[o][k] = play(value , value%p, o);	
+		for (int i=k; i > 1; i >>= 1){
+			tree[o][i>>1] = tree[o][i] + tree[o][i^1];
+		}
+	}
+}
+
+int query(int l, int r, int o){
+    int res = 0;
+    for (l += n, r += n; l < r; l >>= 1, r >>= 1){
+        if (l&1)
+            res += tree[o][l++]; 
+        if (r&1)
+            res += tree[o][--r];
+    }     
+    return res;
+}
+
+
+void solve() {
+	int q,l,r,s,t,val,pos; cin >> n >> q >> p;
+	int a[n]; forr(i,0,n) cin >> a[i];
+	build(a);
+	forr(i,0,q) {
+		cin >> t;
+		if(t == 1) {
+			cin >> pos >> val;
+			pos--;
+			updateTreeNode(pos, val);
+		}
+		else{
+			cin >> s >> l >> r;
+			l--;
+			cout << query(l, r, s - 1) << ' ';
+		}
+	}
+	cout << '\n';
+}
+
+signed main() {
+	ios_base::sync_with_stdio(false); cin.tie(NULL);
+	int tin = 1; cin >> tin;
+	forr(test_num, 1, tin + 1) {
+		cout << "Case #" << test_num << ": ";
+		solve();
+	}
+	return 0;
+}
