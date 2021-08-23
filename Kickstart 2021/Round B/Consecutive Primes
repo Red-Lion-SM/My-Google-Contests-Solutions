@@ -1,0 +1,68 @@
+// If it's not okay, it's not the end...
+
+#include<bits/stdc++.h>
+using namespace std;
+
+#define F first
+#define S second
+#define pb push_back
+#define int long long
+#define ldd long double
+#define vec_i vector<int>
+#define sz(x) (int)(x.size())
+#define all(x) (x).begin(),(x).end()
+#define forr(x,a,m) for(int x=a;x<m;x+=1)
+const int mod = 1000000007;
+
+bool is_prime(int n) {
+    for (int i = 2; i * i <= n; i++) {
+        if (n % i == 0) {
+            return false;
+        }
+    }
+    return true;
+}
+
+void solve() {
+    int n; cin >> n;
+    int x = floor(sqrt(n));
+    int y = x;
+    vec_i v;
+    int fl = 0;
+    while (true) {
+        if (is_prime(x)) {
+            if (y == x) fl++;
+            v.pb(x);
+        }
+        x--;
+        if (x < 2) break;
+        if (sz(v) >= 3) break;
+    }
+    reverse(all(v));
+    x = y;
+    while (true) {
+        if (is_prime(x)) {
+            v.pb(x);
+        }
+        x++;
+        if (sz(v) >= 6) break;
+    }
+    int ans = 0;
+    forr(i, 0, sz(v) - 1) {
+        if (v[i]*v[i + 1] <= n && v[i] != v[i + 1]) {
+            ans = max(ans, v[i] * v[i + 1]);
+        }
+    }
+    cout << ans << '\n';
+}
+
+signed main() {
+    ios_base::sync_with_stdio(false); cin.tie(NULL);
+
+    int tin = 1; cin >> tin;
+    forr(test_num, 1, tin + 1) {
+        cout << "Case #" << test_num << ": ";
+        solve();
+    }
+    return 0;
+}
