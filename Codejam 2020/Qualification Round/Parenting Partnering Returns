@@ -1,0 +1,47 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define stand8th ios_base::sync_with_stdio(false);  cin.tie(NULL);  cout.tie(NULL);
+#define pb push_back
+#define S second
+#define mp make_pair
+#define F first
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+
+int main()
+{
+   stand8th; int tin,j=1; cin>>tin;
+   while(tin--)
+   {
+       int n,k=0; cin>>n; long long int x,y;
+       vector< pair<pair<long long int,long long int>,long long int> > v;
+       vector< pair<long long int,long long int> > v1,v2;
+       for(int i=0;i<n;i++)
+       { cin>>x>>y; v.pb(mp(mp(x,y),i)); }
+       sort(v.begin(),v.end()); char s[n];
+       v1.pb(mp(v[0].F.F,v[0].F.S)); v2.pb(mp(v[1].F.F,v[1].F.S));
+       s[v[0].S]='C'; s[v[1].S]='J'; int u1=0,u2=0;
+       for(int i=2;i<n;i++)
+       {
+           if(v[i].F.F>=v1[u1].S)
+           {
+               v1.pb(mp(v[i].F.F,v[i].F.S));
+               s[v[i].S]='C'; u1++;
+           }
+           else if(v[i].F.F>=v2[u2].S)
+            {
+               v2.pb(mp(v[i].F.F,v[i].F.S));
+               s[v[i].S]='J'; u2++; 
+            }
+           else
+           {k++;  break; }
+       }
+       if(k!=0)
+       { cout<<"Case #"<<j<<": "<<"IMPOSSIBLE"<<endl; }
+       else{ cout<<"Case #"<<j<<": ";
+        for(int i=0;i<n;i++)
+            cout<<s[i];
+        cout<<endl;}
+        j++;
+    }
+    return 0;
+}
