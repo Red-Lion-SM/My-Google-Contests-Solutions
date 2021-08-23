@@ -1,0 +1,112 @@
+// If it's not okay, it's not the end...
+
+#include<bits/stdc++.h>
+using namespace std;
+
+#define F first
+#define S second
+#define pb push_back
+#define int long long
+#define ldd long double
+#define vec_i vector<int>
+#define sz(x) (int)(x.size())
+#define all(x) (x).begin(),(x).end()
+#define forr(x,a,m) for(int x=a;x<m;x+=1)
+const int mod = 1000000007;
+
+void solve() {
+    int n; cin >> n;
+    string a[n]; forr(i, 0, n) cin >> a[i];
+    int ans = 0;
+    forr(i, 1, n) {
+        string u, v;
+        if (sz(a[i]) <= sz(a[i - 1])) {
+            forr(j, 0, sz(a[i - 1]) - sz(a[i])) {
+                u += '0';
+            }
+        }
+        else {
+            forr(j, 0, sz(a[i]) - sz(a[i - 1])) {
+                v += '0';
+            }
+        }
+        forr(j, 0, sz(a[i])) {
+            u += a[i][j];
+        }
+        forr(j, 0, sz(a[i - 1])) {
+            v += a[i - 1][j];
+        }
+        if (u <= v) {
+            if (sz(a[i]) == sz(a[i - 1])) {
+                a[i] += '0'; ans++;
+            }
+            else {
+                int fl = 0;
+                forr(j, 0, sz(a[i])) {
+                    if (a[i][j] > a[i - 1][j]) {
+                        fl++; break;
+                    }
+                    if (a[i][j] < a[i - 1][j]) {
+                        fl = -1; break;
+                    }
+                }
+                if (fl == 1) {
+                    ans += sz(a[i - 1]) - sz(a[i]);
+                    while (sz(a[i]) != sz(a[i - 1])) {
+                        a[i] += '0';
+                    }
+                }
+                else if (fl == -1) {
+                    while (sz(a[i]) <= sz(a[i - 1])) {
+                        a[i] += '0'; ans++;
+                    }
+                }
+                else {
+                    set<int>st;
+                    forr(j, sz(a[i]), sz(a[i - 1])) {
+                        st.insert(a[i - 1][j]);
+                    }
+                    if (sz(st) == 1 && (*(st.begin()) == '9')) {
+                        while (sz(a[i]) <= sz(a[i - 1])) {
+                            a[i] += '0'; ans++;
+                        }
+                    }
+                    else {
+                        int ind = -1;
+                        for (int j = sz(a[i - 1]) - 1; j >= 0; j--) {
+                            if (a[i - 1][j] != '9') {
+                                ind = j; break;
+                            }
+                        }
+                        forr(j, sz(a[i]), sz(a[i - 1])) {
+                            if (j == ind) {
+                                a[i] += (char)(a[i - 1][ind] + 1);
+                                fl++; ans++;
+                            }
+                            else {
+                                if (fl) {
+                                    a[i] += '0'; ans++;
+                                }
+                                else {
+                                    a[i] += a[i - 1][j]; ans++;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    cout << ans << '\n';
+}
+
+signed main() {
+    ios_base::sync_with_stdio(false); cin.tie(NULL);
+
+    int tin = 1; cin >> tin;
+    forr(test_num, 1, tin + 1) {
+        cout << "Case #" << test_num << ": ";
+        solve();
+    }
+    return 0;
+}
