@@ -1,0 +1,44 @@
+// The ones who fear failure are those who have never tasted it..
+
+#include<bits/stdc++.h>
+using namespace std;
+
+#define F first
+#define S second
+#define pb push_back
+#define int long long
+#define ldd long double
+#define vec_i vector<int>
+#define sz(x) (int)(x.size())
+#define all(x) (x).begin(),(x).end()
+#define forr(x,a,m) for(int x=a;x<m;x+=1)
+const int mod = 1000000007;
+
+void solve() {
+	int n, c, l ,r; cin >> n >> c;
+	int a[100006] = {0};
+	map<int,int>strtg,endg;
+	forr(i,0,n) {
+		cin >> l >> r;
+		strtg[l]++, endg[r]++;
+		if(r - l > 1){
+			a[l+1] += 1;
+			a[r] -= 1;
+		}
+	}
+	int ans = n;
+	forr(i, 1, 100006) a[i] += a[i - 1];
+	sort(a, a + 100006, greater<int>());
+	forr(i, 0, c) ans+=a[i];
+	cout << ans << '\n';
+}
+
+signed main() {
+	ios_base::sync_with_stdio(false); cin.tie(NULL);
+	int tin = 1; cin >> tin;
+	forr(test_num, 1, tin + 1) {
+		cout << "Case #" << test_num << ": ";
+		solve();
+	}
+	return 0;
+}
